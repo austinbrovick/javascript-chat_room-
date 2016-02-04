@@ -1,0 +1,99 @@
+<html>
+<head>
+<title></title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+        $(document).ready(function (){
+            $("#messages").hide();
+            var message_and_user = [];
+            // this triggers the connection event in our server!
+            var socket = io.connect();
+            // we'll write all the socket stuff after the above line!
+
+            // emitter
+            $("#enter").click(function() {
+                user = $("input[name=name]").val();
+                $("#content").append("<h5>"+user+" joined the chat</h5>");
+                socket.emit("new_user", user);
+            });
+
+
+            // listener
+            socket.on("new_user_response", function(user) {
+                $("#get_name").hide();
+                $("#messages").show();
+            });
+
+            // emitter
+            $("#message").click(function() {
+                message = $("input[name=message]").val();
+                console.log(message, user, "sending");
+                socket.emit("new_message", message, user);
+            });
+
+
+            //listener
+            socket.on("new_message_response", function(message, sender) {
+                console.log(message);
+                console.log(sender);
+                $("#content").append("<h5>"+sender+":"+message+"</h5>");
+            });
+
+
+
+            // emitter
+            // $("#enter").click(function() {
+            //     user = $("input[name=name]").val();
+            //     console.log(user);
+            //     socket.emit("new_user", {user : user});
+            // });
+
+            // // listener
+            // socket.on("response", function(info) {
+            //     $("#get_name").hide();
+            //     $("#messages").show();
+            //     console.log("hiding div");
+            // });
+
+            // // emitter
+            // $("#message").click(function() {
+            //     message = $("input[name=message]").val();
+            //     socket.emit("new_message", message);
+            // });
+
+            // // listener
+            // socket.on("yo_response", function(message) {
+            //     console.log("made it to new message");
+            //     $("#content").append("<h5>"+message+"</h5>");
+            // });
+        });
+    </script>
+</head>
+<body>
+    <div id ='main_wrapper'>
+        <div id='get_name'>
+            What's your name?<input type='text' name='name'>
+            <button id='enter'>Enter in the chat room </button>
+        </div>
+        <div id='messages'>
+            <div id='content'>
+            </div>
+
+
+
+
+
+            Post a message<input type='text' name='message'>
+            <button id='message'>message</button>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+</html>
+
