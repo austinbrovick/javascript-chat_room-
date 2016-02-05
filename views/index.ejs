@@ -1,7 +1,7 @@
 <html>
 <head>
 <title></title>
-    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <link rel='stylesheet' href='/style.css' />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type ="text/javascript">
@@ -31,6 +31,7 @@
                 message = $("input[name=message]").val();
                 console.log(message, user, "sending");
                 socket.emit("new_message", message, user);
+                $('input[name=message]').val('');
             });
 
 
@@ -40,34 +41,6 @@
                 console.log(sender);
                 $("#content").append("<h5>"+sender+":"+message+"</h5>");
             });
-
-
-
-            // emitter
-            // $("#enter").click(function() {
-            //     user = $("input[name=name]").val();
-            //     console.log(user);
-            //     socket.emit("new_user", {user : user});
-            // });
-
-            // // listener
-            // socket.on("response", function(info) {
-            //     $("#get_name").hide();
-            //     $("#messages").show();
-            //     console.log("hiding div");
-            // });
-
-            // // emitter
-            // $("#message").click(function() {
-            //     message = $("input[name=message]").val();
-            //     socket.emit("new_message", message);
-            // });
-
-            // // listener
-            // socket.on("yo_response", function(message) {
-            //     console.log("made it to new message");
-            //     $("#content").append("<h5>"+message+"</h5>");
-            // });
         });
     </script>
 </head>
@@ -78,14 +51,8 @@
             <button id='enter'>Enter in the chat room </button>
         </div>
         <div id='messages'>
-            <div id='content'>
-            </div>
-
-
-
-
-
-            Post a message<input type='text' name='message'>
+            <div id='content'></div>
+            <input type='text' name='message' id='input_message'>
             <button id='message'>message</button>
 
         </div>
