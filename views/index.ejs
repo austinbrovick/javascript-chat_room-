@@ -15,7 +15,7 @@
             // emitter
             $("#enter").click(function() {
                 user = $("input[name=name]").val();
-                $("#content").append("<h5>"+user+" joined the chat</h5>");
+                $("#content").append("<h5 class='new_user'>"+user+" joined the chat</h5>");
                 socket.emit("new_user", user);
             });
 
